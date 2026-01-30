@@ -79,9 +79,9 @@ Visual Elements: 所有的图表、箭头和边框都应看起来像是用铅笔
 
 - 您将获得一个黄金模板 `scripts/reference.js` 作为参考（但不提供 `index.pptx`，因为您**不需**要查看幻灯片模板图片；只需从代码中学习）。通过构建`buildSlides`函数。您**绝不能**删除或替换 `scripts/reference.js` 文件。相反，您可以修改（例如删除或更改行）或在现有内容之上**构建**（添加行）**并使用其中定义的函数和变量**。但是，请确保您最终的 PowerPoint 中没有残留的模板幻灯片或文本。
 - 默认情况下，使用浅色主题并创建带有适当支持性视觉效果的精美幻灯片。
-- 您**必须**始终使用 PptxGenJS 创建幻灯片，并输出到 `scripts/output.js` 文件。
+- 您**必须**始终使用 PptxGenJS 创建幻灯片，并输出到 `output.js` 文件。
 - 嵌入式图片是幻灯片的关键部分，应经常使用以阐明概念。**仅当**有文本覆盖时才添加淡入淡出效果。
-- 使用 `addImage` 时，由于存在错误，请避免使用 `sizing` 参数。相反，您必须在 `scripts/output.js` 中使用以下之一：
+- 使用 `addImage` 时，由于存在错误，请避免使用 `sizing` 参数。相反，您必须在 `output.js` 中使用以下之一：
   - 裁剪：对于大多数图片，默认使用 `imageSizingCrop`（放大并居中裁剪以适应）；
   - 包含：对于需要保持完全不裁剪的图片（如带有重要文本或图表的图片），使用 `imageSizingContain`；
   - 拉伸：对于纹理或背景，直接使用 `addImage`。
@@ -98,7 +98,7 @@ Visual Elements: 所有的图表、箭头和边框都应看起来像是用铅笔
   - `showTitle: true`,
 - 默认使用模板的 `16x9`（10 x 5.625 英寸）布局制作幻灯片。
 - 所有内容必须完全位于幻灯片内——**绝不能**溢出幻灯片边界。**这一点至关重要**。如果 `pptx_to_img.py` 显示内容溢出警告，您**必须**解决该问题。常见问题是元素溢出（尝试通过 `x`、`y`、`w` 和 `h` 重新定位或调整元素大小）或文本溢出（重新定位、调整大小或减小字体大小）。
-- 请记住在您的 `scripts/output.js` 代码中用实际内容替换所有占位符图片或块。**不要**在最终的演示文稿中使用占位符图片。
+- 请记住在您的 `output.js` 代码中用实际内容替换所有占位符图片或块。**不要**在最终的演示文稿中使用占位符图片。
 - 只用PptxGenJS 的API来绘制图表
   - Chart type of PptxGenJS can be any one of pptx.ChartType: pptx.ChartType.area, pptx.ChartType.bar, pptx.ChartType.bar3d, pptx.ChartType.bubble, pptx.ChartType.bubble3d, pptx.ChartType.doughnut, pptx.ChartType.line, pptx.ChartType.pie, pptx.ChartType.radar, pptx.ChartType.scatter.
   - Combo charts have a different function signature than standard. There are two parameters: chartTypes and options. ChartTypes can be any one of pptx.ChartType, although pptx.ChartType.area, pptx.ChartType.bar, and pptx.ChartType.line will give the best results.
@@ -122,16 +122,17 @@ Visual Elements: 所有的图表、箭头和边框都应看起来像是用铅笔
    2. 要区分主次轻重，区分哪些内容需要用图片、图标、charts、table等来支持。
    3. 每页内容都要至少包含幻灯片标题、正文、图标建议、图表内容、图表建议、图片占位符id（形如`Page-1-Image-1`之类）、每张图片的文生图prompt、整页的layout等。每页幻灯片上图片数量通常为0~2张。
    4. 进行事实核查，幻灯片所引用的内容，必须符合用户输入的原意，最好是原文，给出引用出处
-   5. 用json格式输出到`scripts/output.json`
-3. 根据上一步的json，按照幻灯片制作备注，基于PptxGenJS 语法（Version 3.0+，文档链接：https://gitbrent.github.io/PptxGenJS/docs），修改到 `scripts/output.js` 文件（支持ES Module），用于后续一键生成幻灯片。
+   5. 默认输出目录为当前工作目录，用json格式输出到`output.json`
+3. 根据上一步的json，按照幻灯片制作备注，基于PptxGenJS 语法（Version 3.0+，文档链接：https://gitbrent.github.io/PptxGenJS/docs），修改到 `output.js` 文件（支持ES Module），用于后续一键生成幻灯片。默认输出目录为当前工作目录。
    1. 根据要求，生成整体的视觉风格   
-   2. 补充适合于本页内容的视觉元素（图片、智能图形、图标、图表），体现美观大方专业。留出合适尺寸的占位符（比如灰色矩形），图片要调用合适的SKILL来生成（图片名称包括图片占位符id）。生成图片后再根据图片名称替换掉响应的图片占位符。
+   2. 补充适合于本页内容的视觉元素（图片、智能图形、图标、图表），体现美观大方专业。留出合适尺寸的占位符（比如灰色矩形）。
    3. 基于16宫格网格对每一页内容排版，比如左右二分、左右三分、上下分割、四宫格、六宫格等常见布局。平衡文字和图形
    4. 检查每页的主要内容在布局排版上不能重叠
    5. 每一页的各种内容和"文生图prompt"，放入每页的“演讲者注释”里
    6. 如果有生成口播稿脚本，放入每页的“演讲者注释”里
    7. 构建每一页的幻灯片代码，最前面都用`console.log('building slide...')`函数输出进度，便于后续调试
    8. 构建完所有幻灯片，加一句日志  `pres._slides.forEach((slide, index) => { console.log("Slide " + (index + 1) + " has " + slide._slideObjects.length + " objects."); });`，输出每一页幻灯片的元素数量，便于后续调试
-   9. 输出`scripts/output.js` 文件
-   10. 执行命令`node scripts/output.js`，输出最终幻灯片文件，默认名为`output.pptx`
+   9.  图片要调用合适的SKILL来生成（图片名称包括图片占位符id）。生成图片后再根据图片名称替换掉响应的图片占位符。
+   10. 输出`output.js` 文件
+   11. 执行命令`node output.js`，输出最终幻灯片文件，默认名为`output.pptx`
 
