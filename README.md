@@ -7,6 +7,7 @@ using pptxgenjs library to generate contents of powerpoint slides.
 ```bash
 npx skills add https://github.com/mebusw/pptx-gen.git
 ```
+You need nodejs 22+ to run .mjs file.
 
 ```bash
 cd scripts/
